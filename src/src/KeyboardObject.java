@@ -32,6 +32,11 @@ public class KeyboardObject
 		long rl = (long) input.get("rowLength");
 		this.rowLength = (int) rl;
 		
+		if (rowLength <= 0 || rowLength > keys.size())
+		{
+			throw new IllegalArgumentException("Invalid rowlength: " + rowLength + ". rowlength must be positve and less than total keys");
+		}
+		
 		String start = (String) input.get("startingFocus");
 		this.startingFocus = start.charAt(0);
 		

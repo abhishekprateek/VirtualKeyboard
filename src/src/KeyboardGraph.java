@@ -92,9 +92,12 @@ public class KeyboardGraph
 		}
 		
 		return distance;
+	}	
+	
+	@Override
+	public String toString() {
+		return "KeyboardGraph [nodeMap=" + nodeMap + "]";
 	}
-
-
 	
 	private Map<String, String> DoBFS(char start, char end)
 	{
@@ -235,7 +238,7 @@ public class KeyboardGraph
 		
 		return point;
 	}
-	
+
 	private int GetIndexFromPoint(int[] point)
 	{
 		return point[0] * rowLength + point[1];

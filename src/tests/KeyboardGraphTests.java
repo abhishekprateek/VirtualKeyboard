@@ -105,9 +105,76 @@ class KeyboardGraphTests {
 		assertThat(ex.getMessage(), CoreMatchers.containsString("TZLT"));
 	}
 	
-	private KeyboardObject GetKeyboard(String input)
+	@Test
+	void GetShortedPathForWord_SingleLetterKeyboard() 
 	{
+		// 1st sample input given in assignment
+		String input = "{\r\n" + 
+				"\"alphabet\":[\"A\"],\r\n" + 
+				"\"rowLength\": 1,\r\n" + 
+				"\"startingFocus\": \"A\",\r\n" + 
+				"\"word\": \"AAA\"\r\n" + 
+				"}";
 		
+		KeyboardObject keyboard = GetKeyboard(input);
+		KeyboardGraph kbGraph = new KeyboardGraph(keyboard.getAlphabets(), keyboard.getRowLength());
+		StringBuilder path = new StringBuilder();
+		
+		int d = kbGraph.GetShortedPathForWord(keyboard.getStartingFocus(), keyboard.getWord(), path);
+		
+		assertEquals(0, d);
+		assertEquals(0 + 3, path.length());
+	}
+	
+	@Test
+	void GetShortedPathForWord_SingleRowKeyboard() 
+	{
+		// rowLength = num keys. Meaning keyboard looks like:
+		// R T Y A S D E U I O L
+		String input = "{\r\n" + 
+				"\"alphabet\":[\"R\", \"T\", \"Y\", \"A\", \"S\", \"D\", \"E\", \"U\", \"I\", \"O\", \"L\"],\r\n" + 
+				"\"rowLength\": 11,\r\n" + 
+				"\"startingFocus\": \"Y\",\r\n" + 
+				"\"word\": \"TILT\"\r\n" + 
+				"}";
+		
+		KeyboardObject keyboard = GetKeyboard(input);
+		KeyboardGraph kbGraph = new KeyboardGraph(keyboard.getAlphabets(), keyboard.getRowLength());
+		StringBuilder path = new StringBuilder();
+		
+		int d = kbGraph.GetShortedPathForWord(keyboard.getStartingFocus(), keyboard.getWord(), path);
+		
+		assertEquals(9, d);
+		assertEquals(9 + 4, path.length());
+	}
+	
+	@Test
+	void GetShortedPathForWord_SingleColumnKeyboard() 
+	{
+		// rowLength is 1. Meaning keyboard looks like:
+		// R
+		// T
+		// Y
+		// and so on
+		String input = "{\r\n" + 
+				"\"alphabet\":[\"R\", \"T\", \"Y\", \"A\", \"S\", \"D\", \"E\", \"U\", \"I\", \"O\", \"L\"],\r\n" + 
+				"\"rowLength\": 1,\r\n" + 
+				"\"startingFocus\": \"Y\",\r\n" + 
+				"\"word\": \"TILT\"\r\n" + 
+				"}";
+		
+		KeyboardObject keyboard = GetKeyboard(input);
+		KeyboardGraph kbGraph = new KeyboardGraph(keyboard.getAlphabets(), keyboard.getRowLength());
+		StringBuilder path = new StringBuilder();
+		
+		int d = kbGraph.GetShortedPathForWord(keyboard.getStartingFocus(), keyboard.getWord(), path);
+		
+		assertEquals(9, d);
+		assertEquals(9 + 4, path.length());
+	}
+	
+	private KeyboardObject GetKeyboard(String input)
+	{	
 		try 
 		{
 			JSONObject jsonObj = (JSONObject) parser.parse(input);
