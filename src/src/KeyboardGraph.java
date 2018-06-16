@@ -1,10 +1,14 @@
 package src;
 
+import java.awt.image.ShortLookupTable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 public class KeyboardGraph 
 {
@@ -15,7 +19,7 @@ public class KeyboardGraph
 	private int minRows;
 	private int maxRows;
 	
-	
+	private Map<String, String> shortestPathMap;
 	
 	public KeyboardGraph(char[] keys, int rowLength) 
 	{
@@ -26,6 +30,8 @@ public class KeyboardGraph
 		this.minRows = keys.length / rowLength;
 		this.maxRows = keys.length % rowLength == 0 ? minRows : minRows + 1;
 		
+		this.shortestPathMap = new HashMap<>();
+		
 		for (char key : keys)
 		{
 			GraphNode n = new GraphNode(key);
@@ -33,6 +39,55 @@ public class KeyboardGraph
 		}
 		
 		InitializeNeighbors();
+		GenerateShortestPathMap();
+	}
+
+	private void GenerateShortestPathMap() 
+	{
+		for (char k : keys)
+		{
+			DoBFS(k);
+		}
+	}
+	
+	private void DoBFS(char start)
+	{
+        Queue<GraphNode> nextNodes = new LinkedList<>();
+        Set<Character> visited = new HashSet<>();
+        
+        GraphNode startNode = nodeMap.get(start);
+        
+        nextNodes.add(startNode);
+        visited.add(startNode.key);
+                
+        shortestPathMap.put(String.valueOf(start) + start, "");
+        
+        while (!nextNodes.isEmpty())
+        {
+        	GraphNode n = nextNodes.remove();
+        	
+        	ProcessNeighbor(start, n, n.left, 'l', visited, nextNodes);
+        	ProcessNeighbor(start, n, n.right, 'r', visited, nextNodes);
+        	ProcessNeighbor(start, n, n.above, 'u', visited, nextNodes);
+        	ProcessNeighbor(start, n, n.below, 'd', visited, nextNodes);
+        }
+	}
+	
+
+	private void ProcessNeighbor(char startKey, GraphNode prevNode, GraphNode node, char direction, Set<Character> visited, Queue<GraphNode> nextNodes) 
+	{
+		if (visited.contains(node.key))
+		{
+			return;
+		}
+		
+		String prevLookupKey = String.valueOf(startKey) + prevNode.key;
+		String lookupKey = String.valueOf(startKey) + node.key;
+		
+		shortestPathMap.put(lookupKey, shortestPathMap.get(prevLookupKey) + direction);
+		
+		visited.add(node.key);
+		nextNodes.add(node);
 	}
 
 	private void InitializeNeighbors() 
@@ -111,7 +166,6 @@ public class KeyboardGraph
 		node.above = nodeMap.get(keys[GetIndexFromPoint(above)]);
 		node.below = nodeMap.get(keys[GetIndexFromPoint(below)]);
 		
-		System.out.println(node);
 	}
 
 	private int[] GetPointFromIndex(int index)

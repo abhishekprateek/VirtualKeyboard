@@ -53,6 +53,8 @@ public class VirtualKeyboard
 		
 		KeyboardGraph kbGraph = new KeyboardGraph(keyChars, rowLength);
 		
+		System.out.println("All Done!");
+		
 		// TODO Auto-generated method stub
 		
 	}

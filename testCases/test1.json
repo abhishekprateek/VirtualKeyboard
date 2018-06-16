@@ -1,7 +1,7 @@
 [
   {
     "alphabet": [ "Q", "W", "E", "R", "T", "Y", "U", "I", "B", "P", "A", "S" ],
-    "rowLength": 1,
+    "rowLength": 5,
     "startingFocus": "B",
     "word": "BAR"
   },
