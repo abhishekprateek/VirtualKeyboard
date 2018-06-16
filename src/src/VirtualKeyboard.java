@@ -2,6 +2,8 @@ package src;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,20 +14,22 @@ public class VirtualKeyboard
 {	
 	public static void main(String[] args) throws IOException, ParseException 
 	{		
-		String path;
+		Path path;
 		
 		if (args.length < 1)
 		{
-			path = "samples\\sampleInput1.json";
+			path = Paths.get("samples", "input1.json");
 		}
 		else
 		{
-			path = args[0];
+			path = Paths.get(args[0]);
 		}
+		
+		System.out.println("Input JSON file: " + path);
 		
 		JSONParser parser = new JSONParser();
 		
-		JSONArray inputs = (JSONArray) parser.parse(new FileReader(path));
+		JSONArray inputs = (JSONArray) parser.parse(new FileReader(path.toFile()));
 		
 		for (Object obj : inputs)
 		{
