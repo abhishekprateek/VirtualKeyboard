@@ -11,9 +11,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class VirtualKeyboard 
-{
-	private static ILogger logger = new Logger();
-	
+{	
 	public static void main(String[] args) throws IOException, ParseException 
 	{
 		// TODO Auto-generated method stub
