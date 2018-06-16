@@ -18,8 +18,8 @@ public class VirtualKeyboard
 	{
 		// TODO Auto-generated method stub
 		
-		//String path = "C:\\Users\\surab\\eclipse-workspace\\VirtualKeyboard2\\testFiles\\testCase1.json";
-		String path = "C:\\Users\\abhip\\git\\VirtualKeyboard\\testCases\\test1.json";
+		String path = "C:\\Users\\surab\\eclipse-workspace\\VirtualKeyboard2\\testFiles\\testCase1.json";
+		//String path = "C:\\Users\\abhip\\git\\VirtualKeyboard\\testCases\\test1.json";
 		
 		JSONParser parser = new JSONParser();
 		
@@ -29,15 +29,19 @@ public class VirtualKeyboard
 		{
 			JSONObject input = (JSONObject) obj;
 			ProcessInput(input);
+			
+			System.out.println(input);
 		}
 
         
         System.out.println("All Done!");
 	}
 
+	// JSONObject.put method doesn't support generics properly, hence suppress warnings
+	@SuppressWarnings("unchecked")
 	private static void ProcessInput(JSONObject input) 
 	{
-		System.out.println(input);
+		//System.out.println(input);
 		JSONArray keys = (JSONArray) input.get("alphabet");
 		
 		char[] keyChars = new char[keys.size()];
@@ -56,11 +60,17 @@ public class VirtualKeyboard
 		String start = (String) input.get("startingFocus");
 		String word = (String) input.get("word");
 		
-		String path = kbGraph.GetShortedPathForWord(start.charAt(0), word);
+		StringBuilder path = new StringBuilder();
+		int d = kbGraph.GetShortedPathForWord(start.charAt(0), word, path);
 		
-		System.out.println(path);
+		input.put("distance", d);
+		JSONArray pathArray = new JSONArray();
 		
-		// TODO Auto-generated method stub
+		for (int i = 0; i < path.length(); i++)
+		{
+			pathArray.add(String.valueOf(path.charAt(i)));
+		}
 		
+		input.put("path", pathArray);
 	}
 }

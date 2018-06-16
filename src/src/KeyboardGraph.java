@@ -48,16 +48,16 @@ public class KeyboardGraph
 		GenerateShortestPathMap();
 	}
 	
-	public String GetShortedPathForWord(char start, String word)
+	public int GetShortedPathForWord(char start, String word, StringBuilder path)
 	{
 		if (word == null)
 		{
-			return null;
+			return -1;
 		}
 		
 		if (word.length() == 0)
 		{
-			return "";
+			return -1;
 		}
 		
 		if (!nodeMap.containsKey(start))
@@ -75,7 +75,7 @@ public class KeyboardGraph
 		
 				
 		char prevKey = start;
-		StringBuilder path = new StringBuilder();
+		int distance = 0;
 		
 		for (int i = 0; i < word.length(); i++)
 		{
@@ -88,13 +88,16 @@ public class KeyboardGraph
 			else
 			{
 				String lookupKey = String.valueOf(prevKey) + curKey;
-				path.append(shortestPathMap.get(lookupKey));
+				String subPath = shortestPathMap.get(lookupKey);
+				distance += subPath.length();
+				
+				path.append(subPath);
 				path.append(PressChar);
 				prevKey = curKey;
 			}
 		}
 		
-		return path.toString();
+		return distance;
 	}
 
 	private void GenerateShortestPathMap() 
