@@ -53,7 +53,12 @@ public class VirtualKeyboard
 		
 		KeyboardGraph kbGraph = new KeyboardGraph(keyChars, rowLength);
 		
-		System.out.println("All Done!");
+		String start = (String) input.get("startingFocus");
+		String word = (String) input.get("word");
+		
+		String path = kbGraph.GetShortedPathForWord(start.charAt(0), word);
+		
+		System.out.println(path);
 		
 		// TODO Auto-generated method stub
 		

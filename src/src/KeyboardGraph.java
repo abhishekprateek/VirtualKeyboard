@@ -12,15 +12,21 @@ import java.util.Set;
 
 public class KeyboardGraph 
 {
+	public final char PressChar = 'p';
+	public final char LeftChar = 'l';
+	public final char RightChar = 'r';
+	public final char UpChar = 'u';
+	public final char DownChar = 'd';
+	
 	private Map<Character, GraphNode> nodeMap;
+	private Map<String, String> shortestPathMap;
+		
 	private char[] keys;
 	private int rowLength;
 	private int minRowLength;
 	private int minRows;
 	private int maxRows;
-	
-	private Map<String, String> shortestPathMap;
-	
+		
 	public KeyboardGraph(char[] keys, int rowLength) 
 	{
 		this.nodeMap = new HashMap<>();
@@ -40,6 +46,55 @@ public class KeyboardGraph
 		
 		InitializeNeighbors();
 		GenerateShortestPathMap();
+	}
+	
+	public String GetShortedPathForWord(char start, String word)
+	{
+		if (word == null)
+		{
+			return null;
+		}
+		
+		if (word.length() == 0)
+		{
+			return "";
+		}
+		
+		if (!nodeMap.containsKey(start))
+		{
+			throw new IllegalArgumentException("Invalid start key: " + start);
+		}
+		
+		for (int i = 0; i < word.length(); i++)
+		{
+			if (!nodeMap.containsKey(word.charAt(i)))
+			{
+				throw new IllegalArgumentException("Invalid character '" + word.charAt(i) + "' in word: " + word);
+			}
+		}
+		
+				
+		char prevKey = start;
+		StringBuilder path = new StringBuilder();
+		
+		for (int i = 0; i < word.length(); i++)
+		{
+			char curKey = word.charAt(i);
+			
+			if (prevKey == curKey)
+			{
+				path.append(PressChar);
+			}
+			else
+			{
+				String lookupKey = String.valueOf(prevKey) + curKey;
+				path.append(shortestPathMap.get(lookupKey));
+				path.append(PressChar);
+				prevKey = curKey;
+			}
+		}
+		
+		return path.toString();
 	}
 
 	private void GenerateShortestPathMap() 
@@ -66,10 +121,10 @@ public class KeyboardGraph
         {
         	GraphNode n = nextNodes.remove();
         	
-        	ProcessNeighbor(start, n, n.left, 'l', visited, nextNodes);
-        	ProcessNeighbor(start, n, n.right, 'r', visited, nextNodes);
-        	ProcessNeighbor(start, n, n.above, 'u', visited, nextNodes);
-        	ProcessNeighbor(start, n, n.below, 'd', visited, nextNodes);
+        	ProcessNeighbor(start, n, n.left, LeftChar, visited, nextNodes);
+        	ProcessNeighbor(start, n, n.right, RightChar, visited, nextNodes);
+        	ProcessNeighbor(start, n, n.above, UpChar, visited, nextNodes);
+        	ProcessNeighbor(start, n, n.below, DownChar, visited, nextNodes);
         }
 	}
 	
