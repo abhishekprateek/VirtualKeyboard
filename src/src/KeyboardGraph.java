@@ -16,7 +16,6 @@ public class KeyboardGraph
 	public final char DownChar = 'd';
 	
 	private Map<Character, GraphNode> nodeMap;
-	private Map<String, String> shortestPathMap;
 		
 	private char[] keys;
 	private int rowLength;
@@ -32,9 +31,7 @@ public class KeyboardGraph
 		this.minRowLength = keys.length % rowLength == 0 ? rowLength : keys.length % rowLength;
 		this.minRows = keys.length / rowLength;
 		this.maxRows = keys.length % rowLength == 0 ? minRows : minRows + 1;
-		
-		this.shortestPathMap = new HashMap<>();
-		
+				
 		for (char key : keys)
 		{
 			GraphNode n = new GraphNode(key);
@@ -42,7 +39,6 @@ public class KeyboardGraph
 		}
 		
 		InitializeNeighbors();
-		GenerateShortestPathMap();
 	}
 	
 	public int GetShortedPathForWord(char start, String word, StringBuilder path)
@@ -84,8 +80,10 @@ public class KeyboardGraph
 			}
 			else
 			{
+				Map<String, String> shortestPathMap = DoBFS(prevKey, curKey);
 				String lookupKey = String.valueOf(prevKey) + curKey;
 				String subPath = shortestPathMap.get(lookupKey);
+				
 				distance += subPath.length();
 				
 				path.append(subPath);
@@ -97,15 +95,9 @@ public class KeyboardGraph
 		return distance;
 	}
 
-	private void GenerateShortestPathMap() 
-	{
-		for (char k : keys)
-		{
-			DoBFS(k);
-		}
-	}
+
 	
-	private void DoBFS(char start)
+	private Map<String, String> DoBFS(char start, char end)
 	{
         Queue<GraphNode> nextNodes = new LinkedList<>();
         Set<Character> visited = new HashSet<>();
@@ -115,21 +107,36 @@ public class KeyboardGraph
         nextNodes.add(startNode);
         visited.add(startNode.key);
                 
+        Map<String, String> shortestPathMap = new HashMap<>();
         shortestPathMap.put(String.valueOf(start) + start, "");
         
         while (!nextNodes.isEmpty())
         {
         	GraphNode n = nextNodes.remove();
         	
-        	ProcessNeighbor(start, n, n.left, LeftChar, visited, nextNodes);
-        	ProcessNeighbor(start, n, n.right, RightChar, visited, nextNodes);
-        	ProcessNeighbor(start, n, n.above, UpChar, visited, nextNodes);
-        	ProcessNeighbor(start, n, n.below, DownChar, visited, nextNodes);
+        	if (n.key == end)
+        	{
+        		break;
+        	}
+        	
+        	ProcessNeighbor(start, n, n.left, LeftChar, visited, nextNodes, shortestPathMap);
+        	ProcessNeighbor(start, n, n.right, RightChar, visited, nextNodes, shortestPathMap);
+        	ProcessNeighbor(start, n, n.above, UpChar, visited, nextNodes, shortestPathMap);
+        	ProcessNeighbor(start, n, n.below, DownChar, visited, nextNodes, shortestPathMap);
         }
+        
+        return shortestPathMap;
 	}
 	
 
-	private void ProcessNeighbor(char startKey, GraphNode prevNode, GraphNode node, char direction, Set<Character> visited, Queue<GraphNode> nextNodes) 
+	private void ProcessNeighbor(
+			char startKey,
+			GraphNode prevNode,
+			GraphNode node,
+			char direction,
+			Set<Character> visited,
+			Queue<GraphNode> nextNodes,
+			Map<String, String> shortestPathMap) 
 	{
 		if (visited.contains(node.key))
 		{

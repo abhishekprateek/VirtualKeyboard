@@ -11,9 +11,7 @@ import org.json.simple.parser.ParseException;
 public class VirtualKeyboard 
 {	
 	public static void main(String[] args) throws IOException, ParseException 
-	{
-		// TODO Auto-generated method stub
-		
+	{		
 		String path = "C:\\Users\\surab\\eclipse-workspace\\VirtualKeyboard2\\testFiles\\testCase1.json";
 		//String path = "C:\\Users\\abhip\\git\\VirtualKeyboard\\testCases\\test1.json";
 		
@@ -28,7 +26,6 @@ public class VirtualKeyboard
 			
 			System.out.println(input);
 		}
-
         
         System.out.println("All Done!");
 	}
@@ -37,7 +34,6 @@ public class VirtualKeyboard
 	@SuppressWarnings("unchecked")
 	private static void ProcessInput(JSONObject input) 
 	{
-		//System.out.println(input);
 		JSONArray keys = (JSONArray) input.get("alphabet");
 		
 		char[] keyChars = new char[keys.size()];
