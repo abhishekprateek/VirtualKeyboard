@@ -2,14 +2,10 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.hamcrest.CoreMatchers;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import src.KeyboardGraph;
 import src.KeyboardObject;
@@ -24,7 +20,7 @@ public class KeyboardGraphTests {
 	}
 
 	@Test
-	void GetShortedPathForWord_SampleInput1() 
+	public void test_GetShortedPathForWord_SampleInput1() 
 	{
 		// 1st sample input given in assignment
 		String input = "{\r\n" + 
@@ -45,7 +41,7 @@ public class KeyboardGraphTests {
 	}
 	
 	@Test
-	void GetShortedPathForWord_SampleInput2() 
+	public void GetShortedPathForWord_SampleInput2() 
 	{
 		// 2nd sample input given in assignment
 		String input = "{\r\n" + 
@@ -65,8 +61,8 @@ public class KeyboardGraphTests {
 		assertEquals(6 + 4, path.length());
 	}
 	
-	@Test
-	void GetShortedPathForWord_InvalidStartingFocus() 
+	@Test(expected = IllegalArgumentException.class)
+	public void GetShortedPathForWord_InvalidStartingFocus() 
 	{
 		// Starting focus is Z which is not present on the keyboard
 		String input = "{\r\n" + 
@@ -79,17 +75,12 @@ public class KeyboardGraphTests {
 		KeyboardObject keyboard = GetKeyboard(input);
 		KeyboardGraph kbGraph = new KeyboardGraph(keyboard.getAlphabets(), keyboard.getRowLength());
 		StringBuilder path = new StringBuilder();
-	
-		IllegalArgumentException ex = assertThrows(
-				IllegalArgumentException.class,
-				() -> kbGraph.GetShortedPathForWord(keyboard.getStartingFocus(), keyboard.getWord(), path));
-	
-		assertThat(ex.getMessage(), CoreMatchers.containsString("Invalid"));
-		assertThat(ex.getMessage(), CoreMatchers.containsString("Z"));
+		
+		kbGraph.GetShortedPathForWord(keyboard.getStartingFocus(), keyboard.getWord(), path);
 	}
 	
-	@Test
-	void GetShortedPathForWord_InvalidKeyInWord() 
+	@Test(expected = IllegalArgumentException.class)
+	public void GetShortedPathForWord_InvalidKeyInWord() 
 	{
 		// Word contains letter Z which is not present on the keyboard
 		String input = "{\r\n" + 
@@ -103,16 +94,11 @@ public class KeyboardGraphTests {
 		KeyboardGraph kbGraph = new KeyboardGraph(keyboard.getAlphabets(), keyboard.getRowLength());
 		StringBuilder path = new StringBuilder();
 	
-		IllegalArgumentException ex = assertThrows(
-				IllegalArgumentException.class,
-				() -> kbGraph.GetShortedPathForWord(keyboard.getStartingFocus(), keyboard.getWord(), path));
-	
-		assertThat(ex.getMessage(), CoreMatchers.containsString("Invalid"));
-		assertThat(ex.getMessage(), CoreMatchers.containsString("TZLT"));
+		kbGraph.GetShortedPathForWord(keyboard.getStartingFocus(), keyboard.getWord(), path);
 	}
 	
 	@Test
-	void GetShortedPathForWord_SingleLetterKeyboard() 
+	public void GetShortedPathForWord_SingleLetterKeyboard() 
 	{
 		// 1st sample input given in assignment
 		String input = "{\r\n" + 
@@ -133,7 +119,7 @@ public class KeyboardGraphTests {
 	}
 	
 	@Test
-	void GetShortedPathForWord_SingleRowKeyboard() 
+	public void GetShortedPathForWord_SingleRowKeyboard() 
 	{
 		// rowLength = num keys. Meaning keyboard looks like:
 		// R T Y A S D E U I O L
@@ -155,7 +141,7 @@ public class KeyboardGraphTests {
 	}
 	
 	@Test
-	void GetShortedPathForWord_SingleColumnKeyboard() 
+	public void GetShortedPathForWord_SingleColumnKeyboard() 
 	{
 		// rowLength is 1. Meaning keyboard looks like:
 		// R
