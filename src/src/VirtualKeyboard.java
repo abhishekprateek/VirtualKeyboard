@@ -33,9 +33,6 @@ public class VirtualKeyboard
 
         
         System.out.println("All Done!");
-
-	
-
 	}
 
 	private static void ProcessInput(JSONObject input) 
@@ -51,7 +48,8 @@ public class VirtualKeyboard
 			keyChars[i] = k.charAt(0);
 		}
 		
-		int rowLength = (int) input.get("rowLength");
+		long rl = (long) input.get("rowLength");
+		int rowLength = (int) rl;
 		
 		KeyboardGraph kbGraph = new KeyboardGraph(keyChars, rowLength);
 		

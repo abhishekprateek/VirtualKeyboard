@@ -6,7 +6,10 @@ import java.util.Set;
 public class GraphNode 
 {
 	char key;
-	Set<GraphNode> nbors;
+	GraphNode left;
+	GraphNode right;
+	GraphNode above;
+	GraphNode below;
 	
 	public GraphNode(char k)
 	{
@@ -15,19 +18,18 @@ public class GraphNode
 
 	@Override
 	public String toString() {
-		return "GraphNode [key=" + key + ", nbors=" + SerializeNodes(nbors) + "]";
+		return "GraphNode [key=" + key + ", left=" + NodeValue(left) + ", right=" + NodeValue(right) + ", above=" + NodeValue(above) + ", below=" + NodeValue(below)
+				+ "]";
 	}
-
-	private String SerializeNodes(Set<GraphNode> nodes) 
+	
+	private String NodeValue(GraphNode n)
 	{
-		StringBuilder sb = new StringBuilder();
-		
-		for (GraphNode n : nodes)
+		if (n == null)
 		{
-			sb.append(n.key);
-			sb.append(" ,");
+			return "";
 		}
 		
-		return sb.toString();
+		return String.valueOf(n.key);
 	}
+
 }

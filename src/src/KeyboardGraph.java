@@ -15,6 +15,8 @@ public class KeyboardGraph
 	private int minRows;
 	private int maxRows;
 	
+	
+	
 	public KeyboardGraph(char[] keys, int rowLength) 
 	{
 		this.nodeMap = new HashMap<>();
@@ -36,25 +38,15 @@ public class KeyboardGraph
 	private void InitializeNeighbors() 
 	{
 		for (int i = 0; i < keys.length; i++)
-		{
-			int[] point = GetPointFromIndex(i);
-			
-			List<int[]> nborPoints = GetNeighboringPoints(point);
-			
-			GraphNode node = nodeMap.get(keys[i]);
-			node.nbors = new HashSet<>();
-			
-			for (int[] nborPoint : nborPoints)
-			{
-				int nborIndex = GetIndexFromPoint(nborPoint);
-				GraphNode nbor = nodeMap.get(keys[nborIndex]);
-				node.nbors.add(nbor);
-			}
+		{	
+			AddNeighboringPoints(i);
 		}
 	}
 	
-	private List<int[]> GetNeighboringPoints(int[] point) 
+	private void AddNeighboringPoints(int index) 
 	{
+		int[] point = GetPointFromIndex(index);
+		
 		int row = point[0];
 		int col = point[1];
 		
@@ -64,7 +56,7 @@ public class KeyboardGraph
 		
 		if (!IsPointValid(right))
 		{
-			right[0] = 0;
+			right[1] = 0;
 		}
 		
 		int[] left = new int[2];
@@ -96,26 +88,30 @@ public class KeyboardGraph
 		}
 		
 		int[] above = new int[2];
-		below[1] = col;
+		above[1] = col;
 		
 		if (row == 0)
 		{
-			above[1] = rowLength - 1;
+			above[0] = maxRows - 1;
 			
 			if (!IsPointValid(above))
 			{
-				above[1] = minRowLength - 1;
+				above[0] = minRows - 1;
 			}
 		}
 		else
 		{
 			above[0] = row - 1;
 		}
+
 		
-		List<int[]> result = new ArrayList<>();
-		result.add(left);
+		GraphNode node = nodeMap.get(keys[index]);
+		node.left = nodeMap.get(keys[GetIndexFromPoint(left)]);
+		node.right = nodeMap.get(keys[GetIndexFromPoint(right)]);
+		node.above = nodeMap.get(keys[GetIndexFromPoint(above)]);
+		node.below = nodeMap.get(keys[GetIndexFromPoint(below)]);
 		
-		return null;
+		System.out.println(node);
 	}
 
 	private int[] GetPointFromIndex(int index)
@@ -136,5 +132,4 @@ public class KeyboardGraph
 	{
 		return GetIndexFromPoint(point) < keys.length;
 	}
-
 }
