@@ -12,7 +12,7 @@ public class VirtualKeyboard
 {	
 	public static void main(String[] args) throws IOException, ParseException 
 	{		
-		String path = "C:\\Users\\surab\\eclipse-workspace\\VirtualKeyboard2\\testFiles\\testCase1.json";
+		String path = "C:\\Users\\surab\\git\\VirtualKeyboard\\testCases\\test1.json";
 		//String path = "C:\\Users\\abhip\\git\\VirtualKeyboard\\testCases\\test1.json";
 		
 		JSONParser parser = new JSONParser();
@@ -26,8 +26,6 @@ public class VirtualKeyboard
 			
 			System.out.println(input);
 		}
-        
-        System.out.println("All Done!");
 	}
 
 	// JSONObject.put method doesn't support generics properly, hence suppress warnings
