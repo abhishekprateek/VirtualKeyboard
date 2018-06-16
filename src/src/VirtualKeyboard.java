@@ -2,6 +2,8 @@ package src;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,37 +16,46 @@ public class VirtualKeyboard
 	
 	public static void main(String[] args) throws IOException, ParseException 
 	{
-		System.out.println("Hello2");
 		// TODO Auto-generated method stub
 		
-		String path = "C:\\Users\\surab\\eclipse-workspace\\VirtualKeyboard2\\testFiles\\testCase1.json";
+		//String path = "C:\\Users\\surab\\eclipse-workspace\\VirtualKeyboard2\\testFiles\\testCase1.json";
+		String path = "C:\\Users\\abhip\\git\\VirtualKeyboard\\testCases\\test1.json";
 		
 		JSONParser parser = new JSONParser();
 		
 		JSONArray inputs = (JSONArray) parser.parse(new FileReader(path));
+		
+		for (Object obj : inputs)
+		{
+			JSONObject input = (JSONObject) obj;
+			ProcessInput(input);
+		}
 
         
-        System.out.println(inputs);
-		
-        /*
-		try (Scanner scanner = new Scanner( new File(path)))
-		{
-			String text = scanner.useDelimiter("\\A").next();
-			
-			for (String input : text.split(","))
-			{
-				input.replaceAll("[", "");
-				input.replaceAll("]", "");
-				
-				System.out.println(text);
-			}
-			
-			JSONObject obj = new JSONObject(text);
-			
-			System.out.println(text);
-		}
-		*/
+        System.out.println("All Done!");
+
 	
 
+	}
+
+	private static void ProcessInput(JSONObject input) 
+	{
+		System.out.println(input);
+		JSONArray keys = (JSONArray) input.get("alphabet");
+		
+		char[] keyChars = new char[keys.size()];
+		
+		for (int i = 0; i < keys.size(); i++)
+		{
+			String k = (String) keys.get(i);
+			keyChars[i] = k.charAt(0);
+		}
+		
+		int rowLength = (int) input.get("rowLength");
+		
+		KeyboardGraph kbGraph = new KeyboardGraph(keyChars, rowLength);
+		
+		// TODO Auto-generated method stub
+		
 	}
 }
