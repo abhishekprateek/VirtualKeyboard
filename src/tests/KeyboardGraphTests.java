@@ -14,9 +14,14 @@ import org.junit.jupiter.api.Test;
 import src.KeyboardGraph;
 import src.KeyboardObject;
 
-class KeyboardGraphTests {
+public class KeyboardGraphTests {
 	
 	private JSONParser parser = new JSONParser();
+	
+	public KeyboardGraphTests() 
+	{
+		
+	}
 
 	@Test
 	void GetShortedPathForWord_SampleInput1() 
