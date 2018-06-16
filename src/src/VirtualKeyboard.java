@@ -13,6 +13,14 @@ public class VirtualKeyboard
 	public static void main(String[] args) throws IOException, ParseException 
 	{		
 		String path = "samples\\sampleInput1.json";
+		if (args.length < 1)
+		{
+			path = "samples\\sampleInput1.json";
+		}
+		else
+		{
+			path = args[0];
+		}
 		
 		JSONParser parser = new JSONParser();
 		
