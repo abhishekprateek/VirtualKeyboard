@@ -65,7 +65,6 @@ public class KeyboardGraph
 				throw new IllegalArgumentException("Invalid character '" + word.charAt(i) + "' in word: " + word);
 			}
 		}
-		
 				
 		char prevKey = start;
 		int distance = 0;
@@ -220,14 +219,12 @@ public class KeyboardGraph
 		{
 			above[0] = row - 1;
 		}
-
 		
 		GraphNode node = nodeMap.get(keys[index]);
 		node.left = nodeMap.get(keys[GetIndexFromPoint(left)]);
 		node.right = nodeMap.get(keys[GetIndexFromPoint(right)]);
 		node.above = nodeMap.get(keys[GetIndexFromPoint(above)]);
 		node.below = nodeMap.get(keys[GetIndexFromPoint(below)]);
-		
 	}
 
 	private int[] GetPointFromIndex(int index)
