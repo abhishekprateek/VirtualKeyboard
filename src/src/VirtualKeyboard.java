@@ -1,23 +1,50 @@
 package src;
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
 
-import org.json.*;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class VirtualKeyboard 
 {
 	private static ILogger logger = new Logger();
 	
-	public static void main(String[] args) throws IOException 
+	public static void main(String[] args) throws IOException, ParseException 
 	{
-		// TODO: do parameter validations for args
+		System.out.println("Hello2");
+		// TODO Auto-generated method stub
 		
-		if (args.length != 2)
+		String path = "C:\\Users\\surab\\eclipse-workspace\\VirtualKeyboard2\\testFiles\\testCase1.json";
+		
+		JSONParser parser = new JSONParser();
+		
+		JSONArray inputs = (JSONArray) parser.parse(new FileReader(path));
+
+        
+        System.out.println(inputs);
+		
+        /*
+		try (Scanner scanner = new Scanner( new File(path)))
 		{
-			logger.Log("Incorrect number of arguments");
+			String text = scanner.useDelimiter("\\A").next();
+			
+			for (String input : text.split(","))
+			{
+				input.replaceAll("[", "");
+				input.replaceAll("]", "");
+				
+				System.out.println(text);
+			}
+			
+			JSONObject obj = new JSONObject(text);
+			
+			System.out.println(text);
 		}
-		
-		String fileName = args[1];
+		*/
+	
+
 	}
 }
