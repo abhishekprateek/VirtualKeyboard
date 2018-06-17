@@ -20,7 +20,7 @@ public class KeyboardGraphTests {
 	}
 
 	@Test
-	public void test_GetShortedPathForWord_SampleInput1() 
+	public void GetShortedPathForWord_SampleInput1() 
 	{
 		// 1st sample input given in assignment
 		String input = "{\r\n" + 
