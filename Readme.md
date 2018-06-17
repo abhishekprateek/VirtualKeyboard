@@ -1,17 +1,16 @@
 # Project Title
 
-One Paragraph of project description goes here
+Find a shortest path on a virtual keyboard to spell out a word. Given a JSON representation of the keyboard with letters, length of each row, starting letter and the word to be spelled out. From the starting key, find the shortest path to spell out the given word by moving left, right, up or down (diagonal not allowed). And if you move past the edge of a keyboard, you wrap around from the other side.
 
-## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+## Running the code
 
-### Prerequisites
+### Using ANT
 
-What things you need to install the software and how to install them
+An ANT build.xml file is included, to run the code without needing an IDE. Navigate to root folder ‘VirtualKeyboard’ and type ‘ant’. This would do a clean build and run the code with the default input file under ‘samples\input1.json’.
 
 ```
-Give examples
+git\VirtualKeyboard> ant
 ```
 
 ### Installing
