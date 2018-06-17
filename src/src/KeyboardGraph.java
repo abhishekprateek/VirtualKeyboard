@@ -79,10 +79,7 @@ public class KeyboardGraph
 			}
 			else
 			{
-				Map<String, String> shortestPathMap = DoBFS(prevKey, curKey);
-				String lookupKey = String.valueOf(prevKey) + curKey;
-				String subPath = shortestPathMap.get(lookupKey);
-				
+				String subPath = DoBFS(prevKey, curKey);
 				distance += subPath.length();
 				
 				path.append(subPath);
@@ -99,7 +96,7 @@ public class KeyboardGraph
 		return "KeyboardGraph [nodeMap=" + nodeMap + "]";
 	}
 	
-	private Map<String, String> DoBFS(char start, char end)
+	private String DoBFS(char start, char end)
 	{
         Queue<GraphNode> nextNodes = new LinkedList<>();
         Set<Character> visited = new HashSet<>();
@@ -127,7 +124,7 @@ public class KeyboardGraph
         	ProcessNeighbor(start, n, n.below, DownChar, visited, nextNodes, shortestPathMap);
         }
         
-        return shortestPathMap;
+        return shortestPathMap.get(String.valueOf(start) + end);
 	}
 	
 
